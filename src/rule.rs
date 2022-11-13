@@ -259,3 +259,81 @@ pub fn is_draw(map: &MapArray) -> bool {
     }
     false
 }
+
+pub fn is_end_x(map: &MapArray, near_win: bool) -> isize {
+    let mut sum1 = 0;
+    let mut sum2 = 0;
+    // ループだと遅いので展開
+    if map[0] > 0 {
+        sum1 += map[0]
+    }
+    if map[10] > 0 {
+        sum1 += map[10]
+    }
+    if map[20] > 0 {
+        sum1 += map[20]
+    }
+    if map[30] > 0 {
+        sum1 += map[30]
+    }
+    if map[40] > 0 {
+        sum1 += map[40]
+    }
+    if map[50] > 0 {
+        sum1 += map[50]
+    }
+    if map[5] * -1 > 0 {
+        sum2 += map[5]
+    }
+    if map[15] * -1 > 0 {
+        sum2 += map[15]
+    }
+    if map[25] * -1 > 0 {
+        sum2 += map[25]
+    }
+    if map[35] * -1 > 0 {
+        sum2 += map[35]
+    }
+    if map[45] * -1 > 0 {
+        sum2 += map[45]
+    }
+    if map[55] * -1 > 0 {
+        sum2 += map[55]
+    }
+
+    if sum1 >= 8 {
+        return 1;
+    } else if sum2 <= -8 {
+        return -1;
+    }
+
+    // 手詰まりは判定
+    if is_none_node(map) {
+        if sum1 > (-1 * sum2) {
+            return 1;
+        } else if sum1 < (-1 * sum2) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+    // 実質的判定勝利
+    if near_win == false && (sum1 != 0 || sum2 != 0) {
+        let mut live1 = 0;
+        let mut live2 = 0;
+        for i in 0..36 {
+            let num = NUMBERS[i];
+            if map[num] > 0 {
+                live1 += map[num];
+            } else if map[num] < 0 {
+                live2 += map[num];
+            }
+        }
+        if sum1 > (-1 * (live2 + sum2)) {
+            return 1;
+        } else if -1 * sum2 > (live1 + sum1) {
+            return -1;
+        }
+    }
+    0
+}
