@@ -211,3 +211,51 @@ pub fn is_none_node(map: &MapArray) -> bool {
     }
     true
 }
+pub fn is_draw(map: &MapArray) -> bool {
+    let mut sum1 = 0;
+    let mut sum2 = 0;
+    // ループだと遅いので展開
+    if map[0] > 0 {
+        sum1 += map[0]
+    }
+    if map[10] > 0 {
+        sum1 += map[10]
+    }
+    if map[20] > 0 {
+        sum1 += map[20]
+    }
+    if map[30] > 0 {
+        sum1 += map[30]
+    }
+    if map[40] > 0 {
+        sum1 += map[40]
+    }
+    if map[50] > 0 {
+        sum1 += map[50]
+    }
+    if map[5] * -1 > 0 {
+        sum2 -= map[5]
+    }
+    if map[15] * -1 > 0 {
+        sum2 -= map[15]
+    }
+    if map[25] * -1 > 0 {
+        sum2 -= map[25]
+    }
+    if map[35] * -1 > 0 {
+        sum2 -= map[35]
+    }
+    if map[45] * -1 > 0 {
+        sum2 -= map[45]
+    }
+    if map[55] * -1 > 0 {
+        sum2 -= map[55]
+    }
+    if sum1 == sum2 {
+        if !is_none_node(map) {
+            return false;
+        }
+        return true;
+    }
+    false
+}
