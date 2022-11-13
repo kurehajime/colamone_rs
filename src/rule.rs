@@ -153,7 +153,7 @@ pub fn get_node_map(map: &MapArray, turn_player: isize) -> Vec<HandNode> {
     return node_list;
 }
 
-pub fn has_can_move_panel_x(panel_num: usize, map: MapArray) -> bool {
+pub fn has_can_move_panel_x(panel_num: usize, map: &MapArray) -> bool {
     let number = map[panel_num];
     let panel_num = panel_num as isize;
     let x = panel_num / 10; // [~~]=Math.floor
@@ -187,4 +187,27 @@ pub fn has_can_move_panel_x(panel_num: usize, map: MapArray) -> bool {
         return true;
     }
     false
+}
+
+pub fn is_none_node(map: &MapArray) -> bool {
+    let mut flag1 = false;
+    let mut flag2 = false;
+    for i in 0..36 {
+        let panel_num = NUMBERS[i];
+        if map[panel_num] == 0 {
+            continue;
+        }
+        let can_move = has_can_move_panel_x(panel_num, map);
+        if can_move == true {
+            if map[panel_num] > 0 {
+                flag1 = true;
+            } else if map[panel_num] < 0 {
+                flag2 = true;
+            }
+        }
+        if flag1 && flag2 {
+            return false;
+        }
+    }
+    true
 }
