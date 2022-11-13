@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+
+pub static LIMIT_1000DAY: isize = 3;
 pub static PIECES: [[usize; 9]; 17] = [
     [
         0, 0, 0, // -8
@@ -336,4 +339,12 @@ pub fn is_end_x(map: &MapArray, near_win: bool) -> isize {
         }
     }
     0
+}
+
+pub fn is_1000_day(map: &MapArray, map_list: HashMap<String, isize>) -> bool {
+    let map_json = serde_json::to_string(map).unwrap();
+    if map_list.contains_key(&map_json) && *map_list.get(&map_json).unwrap() >= LIMIT_1000DAY {
+        return true;
+    }
+    false
 }

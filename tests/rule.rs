@@ -58,5 +58,6 @@ fn test_get_can_move_panel_x() {
 
     //障害物のテスト
     let can_move = get_can_move_panel_x(23, &conv_map(&map));
-    assert_eq!(can_move, vec![]);
+    let expect: Vec<usize> = vec![];
+    assert_eq!(can_move, expect);
 }
