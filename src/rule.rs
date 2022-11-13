@@ -152,3 +152,39 @@ pub fn get_node_map(map: &MapArray, turn_player: isize) -> Vec<HandNode> {
     }
     return node_list;
 }
+
+pub fn has_can_move_panel_x(panel_num: usize, map: MapArray) -> bool {
+    let number = map[panel_num];
+    let panel_num = panel_num as isize;
+    let x = panel_num / 10; // [~~]=Math.floor
+    let y = panel_num % 10;
+
+    // アガリのコマは動かしたらダメ。何も無いマスも動かしようがない。
+    if (number > 0 && y == 0) || (number < 0 && y == 5) || number == 0 {
+        return false;
+    }
+    for i in 0..9 {
+        if PIECES[(number + 8) as usize][i] == 0 {
+            continue;
+        }
+        let ii = i as isize;
+        let target_x = x + (ii % 3) - 1;
+        let target_y = y + (ii / 3) - 1;
+        if target_y < 0 || target_y > 5 || target_x > 5 || target_x < 0 {
+            continue;
+        }
+
+        let idx = target_x * 10 + target_y;
+        let target_number = map[idx as usize];
+
+        // 自コマとアガリのコマはとったらダメ。
+        if (target_number * number > 0)
+            || (target_number > 0 && target_y == 0)
+            || (target_number < 0 && target_y == 5)
+        {
+            continue;
+        }
+        return true;
+    }
+    false
+}
