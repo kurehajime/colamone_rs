@@ -1,6 +1,5 @@
-use std::collections::HashMap;
-
 use rand::Rng;
+use std::collections::HashMap;
 
 pub static LIMIT_1000DAY: isize = 3;
 pub static PIECES: [[usize; 9]; 17] = [
