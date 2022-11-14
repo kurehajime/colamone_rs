@@ -355,3 +355,15 @@ pub fn add_1000_day(map: &MapArray, map_list: HashMap<String, isize>) -> HashMap
     *map_list.entry(map_json).or_insert(0) += 1;
     map_list
 }
+pub fn is_goaled(after_hand: isize, turn: isize) -> bool {
+    if turn > 0 {
+        if after_hand % 10 == 0 {
+            return true;
+        }
+    } else if turn < 0 {
+        if after_hand % 10 == 5 {
+            return true;
+        }
+    }
+    false
+}
