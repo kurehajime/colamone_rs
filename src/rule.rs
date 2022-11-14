@@ -348,3 +348,10 @@ pub fn is_1000_day(map: &MapArray, map_list: HashMap<String, isize>) -> bool {
     }
     false
 }
+
+pub fn add_1000_day(map: &MapArray, map_list: HashMap<String, isize>) -> HashMap<String, isize> {
+    let mut map_list = map_list.clone();
+    let map_json = serde_json::to_string(map).unwrap();
+    *map_list.entry(map_json).or_insert(0) += 1;
+    map_list
+}
