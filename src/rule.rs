@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
 use rand::Rng;
-use serde_json::Map;
 
 pub static LIMIT_1000DAY: isize = 3;
 pub static PIECES: [[usize; 9]; 17] = [
@@ -384,11 +383,22 @@ pub fn shuffle_board() -> MapArray {
         arr[i] = arr[r];
         arr[r] = tmp;
     }
-    for num in blue_num {
+    for num in 0..blue_num.len() {
         _map[blue_num[num]] = arr[num];
     }
-    for num in red_num {
+    for num in 0..red_num.len() {
         _map[red_num[num]] = -1 * arr[num];
     }
     return _map;
+}
+pub fn get_node_count(map: &MapArray) -> usize {
+    let mut count = 0;
+    for panel_num in 0..map.len() {
+        if map[panel_num] == 0 {
+            continue;
+        }
+        let can_move = get_can_move_panel_x(panel_num, map);
+        count += can_move.len()
+    }
+    count
 }
