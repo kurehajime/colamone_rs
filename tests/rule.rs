@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use colamone::rule::{get_can_move_panel_x, MapArray};
+use colamone::rule::{get_can_move_panel_x, is_draw, is_end_x, MapArray};
 
 extern crate colamone;
 
@@ -60,4 +60,48 @@ fn test_get_can_move_panel_x() {
     let can_move = get_can_move_panel_x(23, &conv_map(&map));
     let expect: Vec<usize> = vec![];
     assert_eq!(can_move, expect);
+}
+
+#[test]
+fn test_is_end_x() {
+    // 勝敗はついてない
+    let mut map = HashMap::new();
+    map.insert(11, 6);
+    map.insert(51, -2);
+    assert_eq!(is_end_x(&conv_map(&map), false), 0);
+    assert_eq!(is_draw(&conv_map(&map)), false);
+
+    // 青が勝つ
+    let mut map = HashMap::new();
+    map.insert(40, 6);
+    map.insert(50, 2);
+    map.insert(10, -2);
+    map.insert(15, 7);
+    assert_eq!(is_end_x(&conv_map(&map), false), 1);
+    assert_eq!(is_draw(&conv_map(&map)), false);
+
+    // 青が判定勝ち
+    let mut map = HashMap::new();
+    map.insert(40, 3);
+    map.insert(11, -2);
+    map.insert(15, -1);
+    assert_eq!(is_end_x(&conv_map(&map), false), 1);
+    assert_eq!(is_draw(&conv_map(&map)), false);
+
+    // 赤が勝つ
+    let mut map = HashMap::new();
+    map.insert(45, -6);
+    map.insert(55, -2);
+    map.insert(15, 2);
+    map.insert(10, -7);
+    assert_eq!(is_end_x(&conv_map(&map), false), -1);
+    assert_eq!(is_draw(&conv_map(&map)), false);
+
+    // 青が勝つ
+    let mut map = HashMap::new();
+    map.insert(40, 6);
+    map.insert(11, -2);
+    map.insert(15, -6);
+    assert_eq!(is_end_x(&conv_map(&map), false), 0);
+    assert_eq!(is_draw(&conv_map(&map)), true);
 }
