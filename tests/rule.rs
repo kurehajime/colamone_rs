@@ -5,7 +5,7 @@ use colamone::rule::{get_can_move_panel_x, MapArray};
 extern crate colamone;
 
 fn conv_map(map: &HashMap<isize, isize>) -> MapArray {
-    let mut rtn: MapArray = vec![0; 54];
+    let mut rtn: MapArray = vec![0; 56];
     for (key, value) in map {
         rtn[*key as usize] = *value as isize;
     }
