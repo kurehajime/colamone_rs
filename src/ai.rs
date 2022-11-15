@@ -1,4 +1,4 @@
-use crate::eval::{self};
+use crate::eval::{self, DEFAULT_EVALPARAM};
 use crate::rule::{self, Hand, MapArray};
 
 pub fn deep_think_all_ab(
@@ -69,4 +69,25 @@ pub fn deep_think_all_ab(
         }
     }
     return (besthand, best_score);
+}
+pub fn think_ai(
+    map: &MapArray,
+    turn_player: isize,
+    depth: isize,
+    a: Option<isize>,
+    b: Option<isize>,
+    evalparam: Option<[[isize; 6]; 9]>,
+) -> (Option<Hand>, isize) {
+    let mut nearwin = false;
+    let mut hand: (Option<Hand>, isize) = (None, 0);
+    let evalparam = evalparam.unwrap_or(DEFAULT_EVALPARAM);
+
+    if rule::is_end_x(map, false) != 0 {
+        nearwin = true;
+    }
+    hand = deep_think_all_ab(map, turn_player, depth, a, b, nearwin, evalparam);
+    if hand.1 * turn_player == -999999 {
+        hand = deep_think_all_ab(map, turn_player, 1, a, b, nearwin, evalparam);
+    }
+    return hand;
 }
