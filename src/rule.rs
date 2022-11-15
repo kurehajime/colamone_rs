@@ -146,7 +146,7 @@ pub fn get_node_map(map: &MapArray, turn_player: isize) -> Vec<HandNode> {
         }
         let can_move = get_can_move_panel_x(panel_num, map);
         for num in 0..can_move.len() {
-            let mut node_map: MapArray = vec![];
+            let mut node_map: MapArray = map.clone();
             node_map[can_move[num]] = node_map[panel_num];
             node_map[panel_num] = 0;
             let hand = (panel_num, can_move[num]);
