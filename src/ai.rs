@@ -24,12 +24,12 @@ pub fn deep_think_all_ab(
     }
 
     let node_list = rule::get_node_map(map, turn_player);
-    for i in 0..node_list.len() {
-        let hand: Hand = node_list.get(i).unwrap().0;
-        let map0 = &node_list.get(i).unwrap().1;
+    for node in node_list {
+        let hand: Hand = node.0;
+        let map0 = node.1;
         let sc: isize;
         // 必勝
-        let end = rule::is_end_x(map0, nearwin);
+        let end = rule::is_end_x(&map0, nearwin);
         if end == turn_player {
             return (Some(hand), 999999 * turn_player);
         }
@@ -41,10 +41,10 @@ pub fn deep_think_all_ab(
             }
             continue;
         }
-        if rule::is_none_node(map0) {
+        if rule::is_none_node(&map0) {
             sc = 0;
         } else {
-            sc = deep_think_all_ab(map0, turn_player * -1, depth - 1, b, a, nearwin, evalparam).1;
+            sc = deep_think_all_ab(&map0, turn_player * -1, depth - 1, b, a, nearwin, evalparam).1;
         }
         if besthand == None {
             best_score = sc;
@@ -79,7 +79,7 @@ pub fn think_ai(
     evalparam: Option<[[isize; 6]; 9]>,
 ) -> (Option<Hand>, isize) {
     let mut nearwin = false;
-    let mut hand: (Option<Hand>, isize) = (None, 0);
+    let mut hand: (Option<Hand>, isize);
     let evalparam = evalparam.unwrap_or(DEFAULT_EVALPARAM);
 
     if rule::is_end_x(map, false) != 0 {
