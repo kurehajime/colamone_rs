@@ -1,4 +1,3 @@
-use rand::Rng;
 use std::collections::HashMap;
 
 pub static LIMIT_1000DAY: isize = 3;
@@ -367,28 +366,6 @@ pub fn is_goaled(after_hand: isize, turn: isize) -> bool {
         }
     }
     false
-}
-pub fn shuffle_board() -> MapArray {
-    let mut _map: [isize; 56] = [0; 56];
-    let mut _map = _map.to_vec();
-    let mut arr = [1, 2, 3, 4, 5, 6, 7, 8];
-    let red_num = [0, 10, 20, 30, 40, 50, 11, 41];
-    let blue_num = [55, 45, 35, 25, 15, 5, 44, 14];
-    for i in (0..arr.len()).rev() {
-        let mut rng = rand::thread_rng();
-
-        let r = rng.gen_range(0..(i + 1));
-        let tmp = arr[i];
-        arr[i] = arr[r];
-        arr[r] = tmp;
-    }
-    for num in 0..blue_num.len() {
-        _map[blue_num[num]] = arr[num];
-    }
-    for num in 0..red_num.len() {
-        _map[red_num[num]] = -1 * arr[num];
-    }
-    return _map;
 }
 pub fn get_node_count(map: &MapArray) -> usize {
     let mut count = 0;
