@@ -13,8 +13,6 @@ pub struct Result {
     pub to: usize,
 }
 
-pub type MapArray2 = Vec<isize>;
-
 #[derive(Serialize, Deserialize)]
 pub struct Arg {
     pub map: MapArray,
