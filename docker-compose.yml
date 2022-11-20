@@ -5,4 +5,4 @@ services:
     volumes:
       - .:/usr/src/myapp
     build: ./
-    command: wasm-pack build --target web
+    command: bash -c "wasm-pack build --target web && rm ./pkg/.gitignore"
